@@ -1,0 +1,4 @@
+pid: tmp/pids/thin.pid
+log: log/thin.log
+environment: production
+port: 11300

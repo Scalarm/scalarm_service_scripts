@@ -1,0 +1,10 @@
+# mongo_activerecord config
+db_name: 'scalarm_db'
+
+monitoring:
+  db_name: 'scalarm_monitoring'
+  metrics: 'cpu:memory:storage'
+  interval: 60
+
+anonymous_login: 'anonymous'
+anonymous_password: 'pass123'

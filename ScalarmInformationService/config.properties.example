@@ -1,0 +1,3 @@
+serviceName = "scalarm_information_service"
+scalarmTag = "cloudify-working-0.1"
+downloadPath = "https://github.com/Scalarm/scalarm_information_service/archive/${scalarmTag}.zip"
