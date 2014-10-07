@@ -13,7 +13,23 @@ Attention: the scripts use sudo and they can automatically install applications 
 
 All servuces should be automatically downloaded and installed by *install scripts.
 
-Order of use:
+Usage
+=====
+
+Scripts like information_service_install.sh are invoked with 2 arguments:
+- local network address of this service
+- address of Information Service (only host)
+
+
+For example:
+
+``experiment_manager_install.sh 192.168.0.2 192.168.0.4``
+
+By default, both adresses are localhost.
+
+
+Order of invoking
+-----------------
 
 Installation - fetch services data, install requirements and copy files to ~/.cloudify dir.
 
