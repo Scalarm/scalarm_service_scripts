@@ -5,7 +5,7 @@ Scripts derivied from Cloudify Scalarm deployment, to control lifecycle of Scala
 
 Use *{install, start, stop, shutdown}.sh scripts.
 
-Requirements: Ubuntu 12.04+, Groovy interpreter
+Requirements: Ubuntu 12.04+, Groovy interpreter, Ant
 
 Tested on Ubuntu 14.04.
 
