@@ -38,3 +38,9 @@ tools.command("sudo apt-get -y install r-base-core sysstat")
 
 tools.command("RAILS_ENV=production rake service:non_digested", tools.serviceDir)
 
+ant.mkdir(dir: "${tools.installDir}/simulation")
+
+ant.copy(todir: "${tools.installDir}/simulation") {
+    fileset(dir: "simulation")
+}
+

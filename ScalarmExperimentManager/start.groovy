@@ -41,4 +41,7 @@ tools.command("sudo nginx -c nginx.conf -p ${nginxDir}")
 tools.deregisterExperimentManager()
 tools.registerExperimentManager()
 
+// register example scenario
+tools.command("curl https://${tools.thisHost}/simulations -k -u anonymous:pass123 -F simulation_name=\"Product\" -F simulation_description=\"Product simulation\" -F simulation_binaries=@\"simulation/bin.zip\" -F simulation_input=@\"simulation/input_definition.json\" -F executor=@\"simulation/executor.py\"", tools.installDir)
+
 println "[OK] Finished start script"

@@ -1,0 +1,22 @@
+[
+  {
+    "entities": [
+      {
+        "parameters": [
+          {
+            "id": "parameter1",
+            "label": "A",
+            "type": "integer",
+            "min": 0, "max": 1000
+          },
+          {
+            "id": "parameter2",
+            "label": "B",
+            "type": "integer",
+            "min": -100, "max": 100
+          }
+        ]
+      }         
+    ] 
+  }
+]
