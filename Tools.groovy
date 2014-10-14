@@ -12,7 +12,7 @@ public class Tools
     
     def Tools(args) {
         if (args.size() < 2) {
-            println "Usage: groovy script <config_file> <this_host_local_network_address> <information_service_address>"
+            println "Usage: groovy script <config_file> <this_host_local_network_address> <information_service_address/service_adresses>"
             throw new RuntimeException("invalid script arguments")
         }
     
@@ -27,9 +27,14 @@ public class Tools
         new AntBuilder().mkdir(dir: installDir) // works like mkdir -p
 
         thisHost = args[1]
-        isHost = args[2]
+        isHost = parseIsAddress(args[2])
         
         println "this: ${thisHost}; isHost: ${isHost}"
+    }
+    
+    def parseIsAddress(s) {
+        def m = (s =~ /(?i).*information.*service\:(.*?),.*/)
+        m ? (s =~ /(?i).*information.*service\:(.*?),.*/)[0][1] : s
     }
     
     def installCurl() {
