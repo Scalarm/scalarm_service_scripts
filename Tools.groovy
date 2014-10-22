@@ -131,17 +131,12 @@ public class Tools
         ])
     }
     
-    void commandProduction(cmd) {
+    def commandProduction(cmd) {
         command(cmd, serviceDir, envsProduction())
     }
     
-    void optionalCommandProduction(cmd) {
-        optionalCommand(cmd, serviceDir, [
-            'RAILS_ENV': 'production',
-            'IS_URL': "${getIsHost()}:${config.isPort}",
-            'IS_USER': 'scalarm',
-            'IS_PASS': 'scalarm'
-        ])
+    def optionalCommandProduction(cmd) {
+        optionalCommand(cmd, serviceDir, envsProduction())
     }
     
     def envsProduction() {

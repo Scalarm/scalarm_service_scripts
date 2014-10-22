@@ -36,7 +36,7 @@ ant.mkdir(dir: "${tools.serviceDir}/log")
 //TODO? r-cran-class r-cran-mass r-cran-nnet r-cran-spatial
 tools.command("sudo apt-get -y install r-base-core sysstat")
 
-tools.command("RAILS_ENV=production rake service:non_digested", tools.serviceDir)
+tools.commandProduction("RAILS_ENV=production rake service:non_digested")
 
 ant.mkdir(dir: "${tools.installDir}/simulation")
 
