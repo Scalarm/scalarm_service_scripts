@@ -33,8 +33,8 @@ public class Tools
     }
     
     def parseIsAddress(s) {
-        def m = (s =~ /(?i).*information.*service\:(.*?),.*/)
-        m ? (s =~ /(?i).*information.*service\:(.*?),.*/)[0][1] : s
+        def m = (s =~ /(?i).*information.*manager.*instance\:(.*),?.*/)
+        m ? m[0][1] : s
     }
     
     def installCurl() {
