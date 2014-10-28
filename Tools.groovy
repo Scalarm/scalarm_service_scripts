@@ -33,7 +33,7 @@ public class Tools
     }
     
     def parseIsAddress(s) {
-        def m = (s =~ /(?i).*informationServiceInstance\:(.*),?.*/)
+        def m = (s =~ /(?i).*informationServiceInstance\:([0-9\.]*)/)
         m ? m[0][1] : s
     }
     
