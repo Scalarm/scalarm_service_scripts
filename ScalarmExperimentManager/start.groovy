@@ -4,7 +4,7 @@ def nginxDir = "${tools.installDir}/nginx-experiment"
 
 def ant = new AntBuilder()
 
-tools.optionalCommandProduction("rake service:stop")
+tools.optionalCommandEnvsByConfig("rake service:stop")
 
 // test for local development purposes - mongodb router could be already launched
 if (!tools.isPortOccupied('localhost', 27017)) {
@@ -14,13 +14,13 @@ if (!tools.isPortOccupied('localhost', 27017)) {
         perm: "a+x"
     )
     
-    tools.commandProduction("rake db_router:start")
+    tools.commandEnvsByConfig("rake db_router:start")
 }
 
 // Start EM
 // TODO: błąd, jeśli puma jest już uruchomiona, to rake service:start próbuje się uruchomić i pada z exitcode = 1
 // proces rake zawisa (nie wiadomo dlaczego)
-tools.commandProduction("rake service:start")
+tools.commandEnvsByConfig("rake service:start")
 
 // TODO create single user in Scalarm
 

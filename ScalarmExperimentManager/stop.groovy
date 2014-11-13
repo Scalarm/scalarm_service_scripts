@@ -6,6 +6,6 @@ tools.killAllNginxes("nginx-experiment")
 
 tools.deregisterExperimentManager()
 
-tools.commandProduction("rake service:stop")
+tools.commandEnvsByConfig("rake service:stop")
 
-tools.optionalCommandProduction("rake db_router:stop")
+tools.optionalCommandEnvsByConfig("rake db_router:stop")

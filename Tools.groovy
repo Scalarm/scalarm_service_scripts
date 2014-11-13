@@ -133,16 +133,32 @@ public class Tools
     }
     
     def commandProduction(cmd) {
-        command(cmd, serviceDir, envsProduction())
+        commandEnvs('production')
+    }
+
+    def commandEnvsByConfig(cmd) {
+        commandEnvs(config.railsEnv)
     }
     
+    def commandEnvs(cmd, railsEnv) {
+        command(cmd, serviceDir, envsFor(railsEnv))
+    }
+
     def optionalCommandProduction(cmd) {
         optionalCommand(cmd, serviceDir, envsProduction())
     }
+
+    def optionalCommandEnvsByConfig(cmd) {
+        optionalCommand(cmd, serviceDir, envsFor(config.railsEnv))
+    }
     
     def envsProduction() {
+        envsFor('production')
+    }
+
+    def envsFor(railsEnv) {
         [
-            'RAILS_ENV': 'production',
+            'RAILS_ENV': railsEnv,
             'IS_URL': "${getIsHost()}:${config.isPort}",
             'IS_USER': 'scalarm',
             'IS_PASS': 'scalarm'
