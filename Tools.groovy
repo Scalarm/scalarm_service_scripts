@@ -133,11 +133,11 @@ public class Tools
     }
     
     def commandProduction(cmd) {
-        commandEnvs('production')
+        commandEnvs(cmd, 'production')
     }
 
     def commandEnvsByConfig(cmd) {
-        commandEnvs(config.railsEnv)
+        commandEnvs(cmd, config.railsEnv)
     }
     
     def commandEnvs(cmd, railsEnv) {
