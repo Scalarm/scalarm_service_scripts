@@ -8,3 +8,4 @@ monitoring:
 
 anonymous_login: 'anonymous'
 anonymous_password: 'pass123'
+single_user: true
