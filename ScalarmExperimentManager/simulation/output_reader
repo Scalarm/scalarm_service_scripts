@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+require 'json'
+
+puts 'Molecular docking output reader'
+
+png_files_count = `ls simulation_binaries/result_*/*.png | wc -l`.to_i
+
+File.open('output.json', 'w') do |f|
+  f.puts({ 'status' => 'ok', 'results' => { 'png_files_count' => png_files_count } }.to_json)
+end
+
+%x[cp simulation_binaries/result_*/*.mpg .]
+%x[tar czvf output.tar.gz *.mpg]

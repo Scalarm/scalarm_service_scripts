@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+require 'json'
+
+puts 'Molecular docking - progress monitor'
+
+png_files_count = `ls simulation_binaries/result_*/*.png | wc -l`.to_i
+pov_files_count = `ls simulation_binaries/result_*/*.pov | wc -l`.to_i
+
+File.open('intermediate_result.json', 'w') do |f|
+  f.puts({ 'status' => 'ok', 'results' => { 'png_files_count' => png_files_count,
+                                            'pov_files_count' => pov_files_count } }.to_json)
+end

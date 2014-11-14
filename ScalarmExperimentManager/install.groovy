@@ -42,6 +42,8 @@ if (tools.config.railsEnv == 'production') {
 
 ant.mkdir(dir: "${tools.installDir}/simulation")
 
+tools.download(tools.config.simulationBinariesDownloadPath, "${tools.installDir}/simulation/bin.zip")
+
 ant.copy(todir: "${tools.installDir}/simulation") {
     fileset(dir: "simulation")
 }

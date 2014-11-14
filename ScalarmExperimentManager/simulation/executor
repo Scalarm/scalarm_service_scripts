@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+require 'json'
+
+puts 'Molecular docking executor'
+
+input_data = JSON.parse(IO.read('input.json'))
+
+molecule_count = input_data['setup___molecular_docking___molecule_count'].to_i
+puts "Molecule count: #{molecule_count}"
+
+temperature = input_data['setup___molecular_docking___temperature'].to_f
+puts "Temperature: #{temperature}"
+
+simulation_time = input_data['setup___molecular_docking___simulation_time'].to_i
+puts "Simulation time: #{simulation_time}"
+
+simulation_time_step = input_data['setup___molecular_docking___simulation_time_step'].to_f
+puts "Simulation time step: #{simulation_time_step}"
+
+
+cmd_phase_1 = [
+  'cd simulation_binaries',
+  "./run-cmd.sh 1 #{molecule_count} #{simulation_time} #{temperature} #{simulation_time_step}"
+]
+
+puts "Phase 1 - #{cmd_phase_1.join(';')}"
+puts %x[#{cmd_phase_1.join(';')}]
+
+rotation_speed = input_data['setup___movie___rotation_speed'].to_f
+puts "Speed rotation: #{rotation_speed}"
+
+start_angle = input_data['setup___movie___start_angle'].to_f
+puts "Start angle: #{start_angle}"
+
+cmd_phase_2 = [
+  'cd simulation_binaries',
+  "./make-image.sh movie_#{molecule_count}_#{temperature.to_s.gsub('.', '_')}.mpg #{start_angle} #{rotation_speed}" 
+]
+
+puts "Phase 2 - #{cmd_phase_2.join(';')}"
+puts %x[#{cmd_phase_2.join(';')}]
