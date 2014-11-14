@@ -1,5 +1,7 @@
 def tools = new Tools(this.args)
 
+tools.waitForInformationService()
+
 def nginxConfigDir = "${tools.installDir}/nginx-storage"
 
 // generate config file (we are sure that we know thisHost)

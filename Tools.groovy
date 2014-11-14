@@ -9,6 +9,8 @@ public class Tools
     def serviceConfigDir
     def thisHost
     def isHost
+    def storageHost
+    def emHost
     
     def Tools(args) {
         if (args.size() < 2) {
@@ -27,13 +29,42 @@ public class Tools
         new AntBuilder().mkdir(dir: installDir) // works like mkdir -p
 
         thisHost = args[1]
-        isHost = parseIsAddress(args[2])
+        addresses = args[2]
+        // NOTICE these variables can be not set properly
+        isHost = parseIsAddress(addresses)
+        storageHost = parseServiceAddress(addresses, "storageManagerInstance")
+        emHost = parseServiceAddress(addresses, "experimentManagerInstance")        
         
         println "this: ${thisHost}; isHost: ${isHost}"
     }
     
+    // TODO: ports set constant
+    
+    def waitForService(address, name) {
+        while (!isPortOccupied(address)) {
+            println "Waiting for ${name}..."
+            sleep(5000)
+        }
+    }
+    
+    def waitForInformationService() {
+        waitForService(isHost, "Information Service")
+    }
+    
+    def waitForStorageManager() {
+        waitForService(storageHost, "Storage Manager")
+    }
+    
+    def waitForExperimentManager() {
+        waitForService(emHost, "Experiment Manager")
+    }
+    
     def parseIsAddress(s) {
-        def m = (s =~ /(?i).*informationServiceInstance\:([0-9\.]*)/)
+        parseServiceAddress(s, "informationServiceInstance")
+    }
+    
+    def parseServiceAddress(s, serviceName) {
+        def m = (s =~ /(?i).*${serviceName}\:([0-9\.]*)/)
         m ? m[0][1] : s
     }
     

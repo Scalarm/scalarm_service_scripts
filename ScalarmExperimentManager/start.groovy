@@ -1,5 +1,8 @@
 def tools = new Tools(args)
 
+tools.waitForInformationService()
+tools.waitForStorageManager()
+
 def nginxDir = "${tools.installDir}/nginx-experiment"
 
 def ant = new AntBuilder()
