@@ -40,23 +40,23 @@ public class Tools
     
     // TODO: ports set constant
     
-    def waitForService(address, name) {
-        while (!isPortOccupied(address)) {
+    def waitForService(address, port, name) {
+        while (!isPortOccupied(address, port)) {
             println "Waiting for ${name}..."
             sleep(5000)
         }
     }
     
     def waitForInformationService() {
-        waitForService(isHost, "Information Service")
+        waitForService(isHost, 11300, "Information Service")
     }
     
     def waitForStorageManager() {
-        waitForService(storageHost, "Storage Manager")
+        waitForService(storageHost, 20001, "Storage Manager")
     }
     
     def waitForExperimentManager() {
-        waitForService(emHost, "Experiment Manager")
+        waitForService(emHost, 443, "Experiment Manager")
     }
     
     def parseIsAddress(s) {
