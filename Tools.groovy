@@ -29,7 +29,7 @@ public class Tools
         new AntBuilder().mkdir(dir: installDir) // works like mkdir -p
 
         thisHost = args[1]
-        addresses = args[2]
+        def addresses = args[2]
         // NOTICE these variables can be not set properly
         isHost = parseIsAddress(addresses)
         storageHost = parseServiceAddress(addresses, "storageManagerInstance")
