@@ -45,6 +45,6 @@ tools.deregisterExperimentManager()
 tools.registerExperimentManager()
 
 // register example scenario
-tools.command("curl https://${tools.thisHost}/simulations -k -u anonymous:pass123 -F simulation_name=\"Molecular Dynamics\" -F simulation_description=\"Molecular Dynamics simulation\" -F simulation_binaries=@\"simulation/bin.zip\" -F simulation_input=@\"simulation/input.json\" -F executor=@\"simulation/executor\" -F input_writer=@\"simulation/input_writer\" output_reader=@\"simulation/output_reader\" progress_monitor=@\"simulation/progress_monitor\"", tools.installDir)
+tools.command("curl https://${tools.thisHost}/simulations -k -u anonymous:pass123 -F simulation_name=\"Molecular Dynamics\" -F simulation_description=\"Molecular Dynamics simulation\" -F simulation_binaries=@\"simulation/bin.zip\" -F simulation_input=@\"simulation/input.json\" -F executor=@\"simulation/executor\" -F input_writer=@\"simulation/input_writer\" -F output_reader=@\"simulation/output_reader\" -F progress_monitor=@\"simulation/progress_monitor\"", tools.installDir)
 
 println "[OK] Finished start script"
