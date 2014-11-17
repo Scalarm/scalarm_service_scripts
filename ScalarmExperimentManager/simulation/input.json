@@ -46,14 +46,14 @@
             "id": "rotation_speed",
             "label": "Rotation speed",
             "type": "float",
-            "min": 0,
+            "min": 0.005,
             "max": 0.01
           },
           {
             "id": "start_angle",
             "label": "Start angle",
             "type": "integer",
-            "min": 1,
+            "min": 70,
             "max": 360
           }
         ]
