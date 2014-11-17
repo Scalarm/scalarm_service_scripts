@@ -11,7 +11,7 @@ puts "Molecule count: #{molecule_count}"
 temperature = input_data['setup___molecular_docking___temperature'].to_f
 puts "Temperature: #{temperature}"
 
-simulation_time = input_data['setup___molecular_docking___simulation_time'].to_i
+simulation_time = input_data['setup___molecular_docking___simulation_time'].to_f
 puts "Simulation time: #{simulation_time}"
 
 simulation_time_step = input_data['setup___molecular_docking___simulation_time_step'].to_f
@@ -20,7 +20,7 @@ puts "Simulation time step: #{simulation_time_step}"
 
 cmd_phase_1 = [
   'cd simulation_binaries',
-  "./run-cmd.sh 1 #{molecule_count} #{simulation_time} #{temperature} #{simulation_time_step}"
+  "./run-cmd.sh 4 #{molecule_count} #{simulation_time} #{temperature} #{simulation_time_step}"
 ]
 
 puts "Phase 1 - #{cmd_phase_1.join(';')}"
