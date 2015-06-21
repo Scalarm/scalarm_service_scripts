@@ -30,6 +30,8 @@ ant.sequential {
 def configFiles = ['secrets.yml', 'thin.yml']
 configFiles.each { ant.copy(file: it, todir: tools.serviceConfigDir) }
 
+
+
 // download MongoDB's binaries
 tools.download("${tools.config.mongodbDownloadUrl}", "${tools.installDir}/mongodb.tgz")
 tools.command('tar zxvf mongodb.tgz', tools.installDir)

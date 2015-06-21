@@ -9,16 +9,17 @@ def ant = new AntBuilder()
 
 tools.optionalCommandEnvsByConfig("rake service:stop")
 
+// db_router disabled - using mongodb residing on other host
 // test for local development purposes - mongodb router could be already launched
-if (!tools.isPortOccupied('localhost', 27017)) {
-
-    ant.chmod(
-        file: "${tools.serviceDir}/bin/mongos",
-        perm: "a+x"
-    )
-    
-    tools.commandEnvsByConfig("rake db_router:start")
-}
+//if (!tools.isPortOccupied('localhost', 27017)) {
+//
+//    ant.chmod(
+//        file: "${tools.serviceDir}/bin/mongos",
+//        perm: "a+x"
+//    )
+//    
+//    tools.commandEnvsByConfig("rake db_router:start")
+//}
 
 // Start EM
 // TODO: błąd, jeśli puma jest już uruchomiona, to rake service:start próbuje się uruchomić i pada z exitcode = 1

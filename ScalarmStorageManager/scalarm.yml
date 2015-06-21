@@ -13,7 +13,9 @@ binaries_collection_name: 'simulation_files'
 # MongoDB settings
 # host is optional - the service will take local ip address if host is not provided
 # cloudify: host will be checked by Rakefile
-#host: localhost
+host: localhost
+
+
 
 # MongoDB instance settings
 db_instance_port: 30000
