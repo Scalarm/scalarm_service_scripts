@@ -53,19 +53,19 @@ public class Tools
         if (env.containsKey("INFSERPORTREQ")) {
             def isAddress = env["INFSERPORTREQ"].split(',')[0]
             isHost = isAddress.split(':')[0]
-            isPort = isAddress.split(':')[0]
+            isPort = isAddress.split(':')[1]
         }
         
         if (env.containsKey('STOMANPORTREQ')) {
             def stAddress = env["STOMANPORTREQ"].split(',')[0]
             storageHost = stAddress.split(':')[0]
-            storagePort = stAddress.split(':')[0]
+            storagePort = stAddress.split(':')[1]
         }
         
         if (env.containsKey('EXPMANPORTREQ')) {
             def emAddress = env["EXPMANPORTREQ"].split(',')[0]
             emHost = emAddress.split(':')[0]
-            emPort = emAddress.split(':')[0]
+            emPort = emAddress.split(':')[1]
         }
                 
         println "this: ${thisHost}; isHost: ${isHost}, isPort: ${isPort}"

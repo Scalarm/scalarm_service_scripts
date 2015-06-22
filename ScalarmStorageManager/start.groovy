@@ -8,8 +8,8 @@ def nginxConfigDir = "${tools.installDir}/nginx-storage"
 // mongo_host - assume that mongo is running within this instance and listens on thisHost private port
 // 
 def scalarmYML = """\
-# log_bank - assume mongo is on current host
-mongo_host: localhost
+# log_bank - assume mongo is on current host listening on Docker interface
+mongo_host: ${tools.thisHostDocker}
 mongo_port: 27017
 db_name: 'scalarm_db'
 binaries_collection_name: 'simulation_files'
@@ -61,10 +61,12 @@ tools.command('rake db_instance:create_auth', tools.serviceDir, [
 // manually start mongodb because then we can register it in IS manually
 // TODO: this should be taken from config
 def db_data_dir = "./../../scalarm_db_data"
+new AntBuilder().mkdir(dir: "mongodb/bin/${db_data_dir}")
+
 // TODO: this should be taken from config
 def mongo_log_path = "./../../log/scalarm_db.log"
-new AntBuilder().mkdir(dir: )
-tools.command("cd ./mongodb/bin && ./mongod  --bind_ip 172.16.67.60 --port 27017 --dbpath ${db_data_dir} --logpath ${mongo_log_path} --rest --httpinterface --fork --smallfiles --auth")
+
+tools.command("cd ./mongodb/bin && ./mongod  --bind_ip ${tools.thisHostDocker} --port 27017 --dbpath ${db_data_dir} --logpath ${mongo_log_path} --rest --httpinterface --fork --smallfiles --auth", tools.serviceDir)
 
 // TODO: get mongo router public port
 def mongodbPublicPort = 27017
