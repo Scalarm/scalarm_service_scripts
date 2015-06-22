@@ -114,7 +114,7 @@ public class Tools
     def registerServiceInIS(name_plural, address) {
         execute('curl', installDir, false, [
             '--user', 'scalarm:scalarm', // TODO
-            '-k', '-X', 'POST', "https://${isHost}:${isPort}/name_plural",
+            '-k', '-X', 'POST', "https://${isHost}:${isPort}/${name_plural}",
             '--data', "address=${address}"
         ])
     }
