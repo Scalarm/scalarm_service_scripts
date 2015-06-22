@@ -6,6 +6,7 @@ def nginxDir = "${tools.installDir}/nginx-storage"
 
 if (!tools.isRubyValid()) tools.installRvmRuby()
 if (!tools.isNginxPresent()) tools.installNginx()
+tools.installGit()
 
 def ant = new AntBuilder()
 

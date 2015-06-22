@@ -8,15 +8,26 @@ public class Tools
     def serviceDir
     def serviceConfigDir
     def thisHost
+    def thisHostDocker
     def isHost
+    def isPort
     def storageHost
+    def storagePort
     def emHost
+    def emPort
+    def env
     
     def Tools(args) {
-        if (args.size() < 2) {
-            println "Usage: groovy script <config_file> <this_host_local_network_address> <information_service_address/service_adresses>"
-            throw new RuntimeException("invalid script arguments")
+        if (args.size() < 1) {
+            println "Usage: groovy script <config_file>"
         }
+    
+        env = System.getenv()
+    
+        //if (args.size() < 2) {
+        //    println "Usage: groovy script <config_file> <this_host_local_network_address> <information_service_address/service_adresses>"
+        //    throw new RuntimeException("invalid script arguments")
+        //}
     
         instanceId = 1 // TODO
         config = new ConfigSlurper().parse(new File(args[0]).toURL())
@@ -28,14 +39,36 @@ public class Tools
         
         new AntBuilder().mkdir(dir: installDir) // works like mkdir -p
 
-        thisHost = args[1]
-        def addresses = args[2]
-        // NOTICE these variables can be not set properly
-        isHost = parseIsAddress(addresses)
-        storageHost = parseServiceAddress(addresses, "storageManagerInstance")
-        emHost = parseServiceAddress(addresses, "experimentManagerInstance")        
+        // deprecated - old version
+        // thisHost = args[1]
         
-        println "this: ${thisHost}; isHost: ${isHost}"
+        // new version of CAMEL
+        thisHost = env['CONTAINER_HOST_IP']
+        thisHostDocker = env['LOCAL_IP']
+        
+        def addresses = args[2]
+        
+        // TODO: get my port from eg. env[EXPMANPORT_EXTERNAL_PORT]
+
+        if (env.containsKey("INFSERPORTREQ")) {
+            def isAddress = env["INFSERPORTREQ"].split(',')[0]
+            isHost = isAddress.split(':')[0]
+            isPort = isAddress.split(':')[0]
+        }
+        
+        if (env.containsKey('STOMANPORTREQ')) {
+            def stAddress = env["STOMANPORTREQ"].split(',')[0]
+            storageHost = stAddress.split(':')[0]
+            storagePort = stAddress.split(':')[0]
+        }
+        
+        if (env.containsKey('EXPMANPORTREQ')) {
+            def emAddress = env["EXPMANPORTREQ"].split(',')[0]
+            emHost = emAddress.split(':')[0]
+            emPort = emAddress.split(':')[0]
+        }
+                
+        println "this: ${thisHost}; isHost: ${isHost}, isPort: ${isPort}"
     }
     
     // TODO: ports set constant
@@ -48,25 +81,27 @@ public class Tools
     }
     
     def waitForInformationService() {
-        waitForService(isHost, 11300, "Information Service")
+        waitForService(isHost, isPort, "Information Service")
     }
     
     def waitForStorageManager() {
-        waitForService(storageHost, 20001, "Storage Manager")
+        waitForService(storageHost, storagePort, "Storage Manager")
     }
     
     def waitForExperimentManager() {
-        waitForService(emHost, 443, "Experiment Manager")
+        waitForService(emHost, emPort, "Experiment Manager")
     }
     
-    def parseIsAddress(s) {
-        parseServiceAddress(s, "informationServiceInstance")
-    }
+    // Not used anymore
+    // def parseIsAddress(s) {
+    //    parseServiceAddress(s, "informationServiceInstance")
+    // }
     
-    def parseServiceAddress(s, serviceName) {
-        def m = (s =~ /(?i).*${serviceName}\:([0-9\.]*)/)
-        m ? m[0][1] : s
-    }
+    // Not used anymore
+    // def parseServiceAddress(s, serviceName) {
+    //     def m = (s =~ /(?i).*${serviceName}\:([0-9\.]*)/)
+    //     m ? m[0][1] : s
+    // }
     
     def installCurl() {
         command("sudo apt-get -y install curl")
@@ -76,22 +111,22 @@ public class Tools
         command("sudo apt-get -y install git")
     }
     
-    def deregisterExperimentManager() {
+    def registerServiceInIS(name_plural, address) {
         execute('curl', installDir, false, [
-            '--user', 'scalarm:scalarm',
-            '-k', '-X', 'POST', "https://${getIsHost()}:${config.isPort}/experiments/deregister",
-            '--data', "address=${thisHost}:443"
+            '--user', 'scalarm:scalarm', // TODO
+            '-k', '-X', 'POST', "https://${isHost}:${isPort}/name_plural",
+            '--data', "address=${address}"
         ])
     }
     
-    def registerExperimentManager() {
-        execute('curl', installDir, true, [
-            '--user', 'scalarm:scalarm',
-            '-k', '-X', 'POST', "https://${getIsHost()}:${config.isPort}/experiments/register",
-            '--data', "address=${thisHost}:443"
+    def deregisterServiceInIS(name_plural, address) {
+        execute('curl', installDir, false, [
+            '--user', 'scalarm:scalarm', // TODO
+            '-k', '-X', 'DELETE', "https://${isHost}:${isPort}/name_plural",
+            '--data', "address=${address}"
         ])
     }
-        
+            
     def getIsHost() {
         isHost
     }
@@ -146,22 +181,6 @@ public class Tools
     def getSimulationManagerPids() {
         getPids("ruby.*simulation_manager.rb")
     }
-
-    def deregisterStorageManager() {
-        execute('curl', installDir, false, [
-            '--user', 'scalarm:scalarm',
-            '-k', '-X', 'POST', "https://${getIsHost()}:${config.isPort}/storage/deregister",
-            '--data', "address=${thisHost}:${config.logBankPort}"
-        ])
-    }
-    
-    def registerStorageManager() {
-        execute('curl', installDir, true, [
-            '--user', 'scalarm:scalarm',
-            '-k', '-X', 'POST', "https://${getIsHost()}:${config.isPort}/storage/register",
-            '--data', "address=${thisHost}:${config.logBankPort}"
-        ])
-    }
     
     def commandProduction(cmd) {
         commandEnvs(cmd, 'production')
@@ -190,7 +209,7 @@ public class Tools
     def envsFor(railsEnv) {
         [
             'RAILS_ENV': railsEnv,
-            'IS_URL': "${getIsHost()}:${config.isPort}",
+            'IS_URL': "${isHost}:${isPort}",
             'IS_USER': 'scalarm',
             'IS_PASS': 'scalarm'
         ]

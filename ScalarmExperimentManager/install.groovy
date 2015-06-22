@@ -25,7 +25,10 @@ ant.sequential {
 ant.unzip(src:"${tools.installDir}/em.zip", dest: tools.installDir, overwrite:true)
 ant.move(file:"${tools.installDir}/${tools.config.serviceName}-${tools.config.scalarmTag}", tofile: tools.serviceDir)
 
-ant.copy(file:"scalarm.yml", todir: tools.serviceConfigDir)
+// scalarm.yml is not used from 15.06
+//ant.copy(file:"scalarm.yml", todir: tools.serviceConfigDir)
+
+// TODO: mongodb credentials in secrets.database are hardcoded
 ant.copy(file:"secrets.yml", todir: tools.serviceConfigDir)
 ant.copy(file:"puma.rb", todir: tools.serviceConfigDir)
 
@@ -37,7 +40,7 @@ ant.mkdir(dir: "${tools.serviceDir}/log")
 tools.command("sudo apt-get -y install r-base-core sysstat")
 
 if (tools.config.railsEnv == 'production') {
-	tools.commandEnvsByConfig("rake service:non_digested")
+    tools.commandEnvsByConfig("rake service:non_digested")
 }
 
 ant.mkdir(dir: "${tools.installDir}/simulation")

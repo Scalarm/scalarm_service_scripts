@@ -26,14 +26,7 @@ tools.optionalCommandEnvsByConfig("rake service:stop")
 // proces rake zawisa (nie wiadomo dlaczego)
 tools.commandEnvsByConfig("rake service:start")
 
-// TODO create single user in Scalarm
-
-// TODO ---- zmiany w samym Scalarmie
-// - tryb cloudify - single user login (pomijanie login screen i logowanie od razu na użytkownika podanego w konfiguracji, ew. podanie hasła), use only anonymous
-// single user mode -> całkowite pominięcie uwierzytelniania (login screen)  
-// przenieść do zewnętrznego pliku konfiguracyjnego ustawianie, które infrastrutury mają być dostępne?
-// TODO patch scalarm to support single-user installation
-
+// TODO: przenieść do zewnętrznego pliku konfiguracyjnego ustawianie, które infrastrutury mają być dostępne?
 
 tools.killAllNginxes("nginx-experiment")
 tools.command("sudo nginx -c nginx.conf -p ${nginxDir}")
@@ -42,10 +35,18 @@ tools.command("sudo nginx -c nginx.conf -p ${nginxDir}")
 // assert ant.project.properties.cmdOut1 ==~ /.*"status":"ok".*/
 
 // Deregister this EM from IS (because registering the same address causes error)
-tools.deregisterExperimentManager()
-tools.registerExperimentManager()
+
+// get my public port
+def emPublicPort = tools.env['EXPMANPORT_EXTERNAL_PORT']
+println "ExperimentManager: my external port is ${emPublicPort}"
+
+tools.deregisterServiceInIS('experiment_managers', "${tools.thisHost}:${emPublicPort}")
+tools.registerServiceInIS('experiment_managers', "${tools.thisHost}:${emPublicPort}")
 
 // register example scenario
+// TODO: EM credentials in config?
 tools.command("curl https://${tools.thisHost}/simulations -k -u anonymous:pass123 -F simulation_name=\"Molecular Dynamics\" -F simulation_description=\"Molecular Dynamics simulation\" -F simulation_binaries=@\"simulation/bin.zip\" -F simulation_input=@\"simulation/input.json\" -F executor=@\"simulation/executor\" -F input_writer=@\"simulation/input_writer\" -F output_reader=@\"simulation/output_reader\" -F progress_monitor=@\"simulation/progress_monitor\"", tools.installDir)
 
 println "[OK] Finished start script"
+
+// TODO: should not exit? maybe tail -f log/development.log...
