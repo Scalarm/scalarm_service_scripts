@@ -7,6 +7,9 @@ tools.optionalCommand('rake service:stop_single', tools.serviceDir, [
     'IS_PASS': tools.config.isPass
 ])
 
+// force killall mongod
+tools.command("killall mongod || true")
+
 // TODO: get mongo router public port
 def mongodbPublicPort = 27017
 println "StorageManager MongoDB: my external port is ${mongodbPublicPort}"

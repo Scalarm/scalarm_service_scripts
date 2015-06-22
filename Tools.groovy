@@ -47,7 +47,7 @@ public class Tools
         thisHostDocker = env['LOCAL_IP']
         
         def addresses = args[2]
-        
+        na
         // TODO: get my port from eg. env[EXPMANPORT_EXTERNAL_PORT]
 
         if (env.containsKey("INFSERPORTREQ")) {
@@ -122,7 +122,7 @@ public class Tools
     def deregisterServiceInIS(name_plural, address) {
         execute('curl', installDir, false, [
             '--user', 'scalarm:scalarm', // TODO
-            '-k', '-X', 'DELETE', "https://${isHost}:${isPort}/name_plural",
+            '-k', '-X', 'DELETE', "https://${isHost}:${isPort}/${name_plural}",
             '--data', "address=${address}"
         ])
     }
