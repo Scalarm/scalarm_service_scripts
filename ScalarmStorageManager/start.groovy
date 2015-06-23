@@ -90,9 +90,24 @@ tools.killAllNginxes("nginx-storage")
 tools.command("sudo nginx -c nginx.conf -p ${nginxConfigDir}")
 
 // get my public port
-def logBankPublicPort = tools.env['STOMANPORT_EXTERNAL_PORT']
+def logBankPublicPort = tools.env['STOMANDBPORT_EXTERNAL_PORT']
 println "StorageManager LogBank: my external port is ${logBankPublicPort}"
 
 // first, deregister this Storage from IS (because registering the same address causes error)
 tools.deregisterServiceInIS('storage_managers', "${tools.thisHost}:${logBankPublicPort}")
 tools.registerServiceInIS('storage_managers', "${tools.thisHost}:${logBankPublicPort}")
+
+// TODO: use port from CAMEL model
+def probe_delay_ms = 10000
+try {
+    while (true) {
+        sleep(probe_delay_ms)
+        tools.serviceStatusCommand("${tools.thisHostDocker}:20001")
+        tools.mongoStatusCommand()
+    }
+} catch (Exception e) {
+    def log_name = tools.config.railsEnv ? tools.config.railsEnv : 'development'
+    tools.command("cat log/${log_name}.log", tools.config.serviceDir)
+    throw e
+}
+

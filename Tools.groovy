@@ -34,7 +34,7 @@ public class Tools
         installDir = System.properties["user.home"]+ "/.cloudify/${config.serviceName}"
         serviceDir = "${installDir}/${config.serviceName}"
         serviceConfigDir = "${serviceDir}/config"
-        
+
         println "Config:"
         println config
         
@@ -96,16 +96,27 @@ public class Tools
         waitForService(emHost, emPort, "Experiment Manager")
     }
     
-    // Not used anymore
-    // def parseIsAddress(s) {
-    //    parseServiceAddress(s, "informationServiceInstance")
-    // }
-    
-    // Not used anymore
-    // def parseServiceAddress(s, serviceName) {
-    //     def m = (s =~ /(?i).*${serviceName}\:([0-9\.]*)/)
-    //     m ? m[0][1] : s
-    // }
+    // Address without https://, eg.: localhost:3001
+    def watchServiceStatus(address, probe_delay_ms=10000) {
+        try {
+            while (true) {
+                sleep(probe_delay_ms)
+                serviceStatusCommand(address)
+            }
+        } catch (Exception e) {
+            def log_name = config.railsEnv ? config.railsEnv : 'development'
+            command("cat log/${log_name}.log", serviceDir)
+            throw e
+        }
+    }
+
+    def serviceStatusCommand(address) {
+        tools.command("bash check_service.sh ${address}", '.')
+    }
+
+    def mongoStatusCommand() {
+        tools.command("bash check_mongod.sh")
+    }
     
     def installCurl() {
         command("sudo apt-get -y install curl")

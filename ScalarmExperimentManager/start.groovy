@@ -43,10 +43,14 @@ println "ExperimentManager: my external port is ${emPublicPort}"
 tools.deregisterServiceInIS('experiment_managers', "${tools.thisHost}:${emPublicPort}")
 tools.registerServiceInIS('experiment_managers', "${tools.thisHost}:${emPublicPort}")
 
+println "Waiting 5 seconds for ExperimentManager to settle down..."
+sleep(5000)
+
 // register example scenario
 // TODO: EM credentials in config?
 tools.command("curl https://${tools.thisHost}/simulations -k -u anonymous:pass123 -F simulation_name=\"Molecular Dynamics\" -F simulation_description=\"Molecular Dynamics simulation\" -F simulation_binaries=@\"simulation/bin.zip\" -F simulation_input=@\"simulation/input.json\" -F executor=@\"simulation/executor\" -F input_writer=@\"simulation/input_writer\" -F output_reader=@\"simulation/output_reader\" -F progress_monitor=@\"simulation/progress_monitor\"", tools.installDir)
 
-println "[OK] Finished start script"
+println "[OK] Finished start script, now will check status periodically"
 
-// TODO: should not exit? maybe tail -f log/development.log...
+// TODO: use port from CAMEL model
+tools.watchServiceStatus("${tools.thisHostDocker}:443")
