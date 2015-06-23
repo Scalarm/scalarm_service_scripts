@@ -151,7 +151,7 @@ public class Tools
     def copyAndApplyPatch(patch_file_name) {
         def ant = new AntBuilder()
         ant.copy(file: patch_file_name, todir: serviceDir)
-        command("patch -p1 < ${patch_name}", serviceDir)
+        command("patch -p1 < ${patch_file_name}", serviceDir)
     }
 
     def command(command, dir=installDir, envs=[], failonerror=true) {
