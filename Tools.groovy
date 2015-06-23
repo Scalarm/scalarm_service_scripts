@@ -35,6 +35,7 @@ public class Tools
         serviceDir = "${installDir}/${config.serviceName}"
         serviceConfigDir = "${serviceDir}/config"
         
+        println "Config:"
         println config
         
         new AntBuilder().mkdir(dir: installDir) // works like mkdir -p
@@ -46,8 +47,6 @@ public class Tools
         thisHost = env['CONTAINER_HOST_IP']
         thisHostDocker = env['LOCAL_IP']
         
-        def addresses = args[2]
-        na
         // TODO: get my port from eg. env[EXPMANPORT_EXTERNAL_PORT]
 
         if (env.containsKey("INFSERPORTREQ")) {
@@ -67,8 +66,13 @@ public class Tools
             emHost = emAddress.split(':')[0]
             emPort = emAddress.split(':')[1]
         }
-                
-        println "this: ${thisHost}; isHost: ${isHost}, isPort: ${isPort}"
+        
+        println "serviceDir: ${serviceDir}"
+        println "this: ${thisHost}; thisDocker: ${thisHostDocker}"
+        println "isHost: ${isHost}, isPort: ${isPort}"
+        println "storageHost: ${storageHost}, storagePort: ${storagePort}"
+        println "emHost: ${emHost}, emPort: ${emPort}"
+
     }
     
     // TODO: ports set constant

@@ -66,7 +66,7 @@ new AntBuilder().mkdir(dir: "mongodb/bin/${db_data_dir}")
 // TODO: this should be taken from config
 def mongo_log_path = "./../../log/scalarm_db.log"
 
-tools.command("cd ./mongodb/bin && ./mongod  --bind_ip ${tools.thisHostDocker} --port 27017 --dbpath ${db_data_dir} --logpath ${mongo_log_path} --rest --httpinterface --fork --smallfiles --auth", tools.serviceDir)
+tools.command("./mongod --bind_ip ${tools.thisHostDocker} --port 27017 --dbpath ${db_data_dir} --logpath ${mongo_log_path} --rest --httpinterface --fork --smallfiles --auth", "${tools.serviceDir}/mongodb/bin")
 
 // TODO: get mongo router public port
 def mongodbPublicPort = 27017
