@@ -1,3 +1,3 @@
 #!/bin/bash
-    ./service.sh ScalarmStorageManager start $1 $2
+./service.sh ScalarmStorageManager start
     

@@ -1,3 +1,3 @@
 #!/bin/bash
-    ./service.sh ScalarmSimulationManager shutdown $1 $2
+ ./service.sh ScalarmSimulationManager shutdown
     

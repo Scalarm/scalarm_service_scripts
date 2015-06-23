@@ -2,8 +2,8 @@ import os, stat
 
 def create(camel, snake, action):
     content='''#!/bin/bash
-    ./service.sh %s %s $1 $2
-    ''' % (camel, action)
+./service.sh %s %s
+''' % (camel, action)
 
     fname = '%s_%s.sh' % (snake, action)
     with open(fname, 'wb+') as f:

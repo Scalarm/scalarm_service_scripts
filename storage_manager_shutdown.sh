@@ -1,3 +1,3 @@
 #!/bin/bash
-    ./service.sh ScalarmStorageManager shutdown $1 $2
+./service.sh ScalarmStorageManager shutdown
     

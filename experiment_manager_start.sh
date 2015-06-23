@@ -1,3 +1,3 @@
 #!/bin/bash
-    ./service.sh ScalarmExperimentManager start $1 $2
+./service.sh ScalarmExperimentManager start
     

@@ -1,3 +1,3 @@
 #!/bin/bash
-    ./service.sh ScalarmInformationService start $1 $2
+./service.sh ScalarmInformationService start
     

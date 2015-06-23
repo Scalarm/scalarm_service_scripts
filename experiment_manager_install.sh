@@ -1,3 +1,3 @@
 #!/bin/bash
-    ./service.sh ScalarmExperimentManager install $1 $2
+./service.sh ScalarmExperimentManager install
     

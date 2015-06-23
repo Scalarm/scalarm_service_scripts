@@ -1,3 +1,3 @@
 #!/bin/bash
-    ./service.sh ScalarmInformationService install $1 $2
+ ./service.sh ScalarmInformationService install
     
