@@ -1,0 +1,17 @@
+diff --git a/Rakefile b/Rakefile
+index 879b067..1bc80f4 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -72,9 +72,9 @@ namespace :service do
+   desc 'Downloading and installing dependencies'
+   task :setup, [:debug] => [:environment] do
+     puts 'Setup started'
+-    get_monitoring unless check_monitoring
+-    get_simulation_managers_go unless check_sim_go
+-    get_simulation_manager_ruby unless check_sim_ruby
++    #get_monitoring unless check_monitoring
++    #get_simulation_managers_go unless check_sim_go
++    #get_simulation_manager_ruby unless check_sim_ruby
+     install_r_libraries
+ 
+     _validate_service

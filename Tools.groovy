@@ -148,6 +148,12 @@ public class Tools
         command(installCmd)['out']
     }
 
+    def copyAndApplyPatch(patch_file_name) {
+        ant = new AntBuilder()
+        ant.copy(file: patch_file_name, todir: tools.serviceDir)
+        command("patch -p1 < ${patch_name}", tools.serviceDir)
+    }
+
     def command(command, dir=installDir, envs=[], failonerror=true) {
         execute('bash', dir, failonerror, ['--login', '-c', command], envs)
     }

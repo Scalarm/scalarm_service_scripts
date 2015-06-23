@@ -32,6 +32,9 @@ ant.move(file:"${tools.installDir}/${tools.config.serviceName}-${tools.config.sc
 ant.copy(file:"secrets.yml", todir: tools.serviceConfigDir)
 ant.copy(file:"puma.rb", todir: tools.serviceConfigDir)
 
+// Copy and apply PaaSage-specific patches
+tools.copyAndApplyPatch("disable_workers_packages.patch")
+
 tools.command("bundle install", tools.serviceDir)
 
 ant.mkdir(dir: "${tools.serviceDir}/log")
