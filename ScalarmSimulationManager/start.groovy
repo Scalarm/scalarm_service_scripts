@@ -15,4 +15,5 @@ new File("${tools.installDir}/config.json").withWriter { out ->
     out.writeLine(configStr)
 }
 
-tools.command("./scalarm_simulation_manager", tools.installDir)
+// execution moved to .sh file
+// tools.command("./scalarm_simulation_manager", tools.installDir)
