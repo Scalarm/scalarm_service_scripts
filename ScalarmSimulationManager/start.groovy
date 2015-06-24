@@ -6,11 +6,12 @@ def configStr = """\
 {
 	\"information_service_url\":\"${tools.isHost}:${tools.isPort}\",
 	\"experiment_manager_user\":\"${tools.config.emUser}\",
-	\"experiment_manager_pass\":\"${tools.config.emPassword}\"
+	\"experiment_manager_pass\":\"${tools.config.emPassword}\",
+	\"insecure_ssl\": true
 }
 """
 
-new File("${tools.serviceDir}/config.json").text { out ->
+new File("${tools.installDir}/config.json").withWriter { out ->
     out.writeLine(configStr)
 }
 
