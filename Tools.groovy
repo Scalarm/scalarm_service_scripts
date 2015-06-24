@@ -200,7 +200,7 @@ public class Tools
     }
 
     def getSimulationManagerPids() {
-        getPids("ruby.*simulation_manager.rb")
+        getPids("scalarm_simulation_manager")
     }
     
     def commandProduction(cmd) {
