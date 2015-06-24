@@ -10,5 +10,3 @@ println "ExperimentManager: my external port is ${emPublicPort}"
 tools.deregisterServiceInIS('experiment_managers', "${tools.thisHost}:${emPublicPort}")
 
 tools.commandEnvsByConfig("rake service:stop")
-
-tools.optionalCommandEnvsByConfig("rake db_router:stop")
