@@ -11,7 +11,7 @@ tools.optionalCommand('rake service:stop_single', tools.serviceDir, [
 tools.command("killall mongod || true")
 
 // TODO: get mongo router public port
-def mongodbPublicPort = 27017
+def mongodbPublicPort = tools.env['STOMANDBPORT_EXTERNAL_PORT']
 println "StorageManager MongoDB: my external port is ${mongodbPublicPort}"
 tools.deregisterServiceInIS("db_routers", "${tools.config.thisHost}:${mongodbPublicPort}")
 
