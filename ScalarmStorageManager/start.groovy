@@ -107,7 +107,7 @@ try {
     }
 } catch (Exception e) {
     def log_name = tools.config.railsEnv ? tools.config.railsEnv : 'development'
-    tools.command("cat log/${log_name}.log", tools.config.serviceDir)
+    tools.command("cat log/${log_name}.log", tools.serviceDir)
     throw e
 }
 

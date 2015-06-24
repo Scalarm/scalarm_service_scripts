@@ -111,11 +111,11 @@ public class Tools
     }
 
     def serviceStatusCommand(address) {
-        command("bash check_service.sh ${address}", '.')
+        command("bash check_service.sh ${address}", '../')
     }
 
     def mongoStatusCommand() {
-        command("bash check_mongod.sh")
+        command("bash check_mongod.sh", '../')
     }
     
     def installCurl() {
