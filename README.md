@@ -1,3 +1,5 @@
+:warning: **Note:** These scripts are not longer maintained. This repository can serve as an example of Paasage scripts. For regular deployment please use: https://github.com/Scalarm/scalarm
+
 scalarm_service_scripts
 =======================
 
