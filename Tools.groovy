@@ -16,19 +16,19 @@ public class Tools
     def emHost
     def emPort
     def env
-    
+
     def Tools(args) {
         if (args.size() < 1) {
             println "Usage: groovy script <config_file>"
         }
-    
+
         env = System.getenv()
-    
+
         //if (args.size() < 2) {
         //    println "Usage: groovy script <config_file> <this_host_local_network_address> <information_service_address/service_adresses>"
         //    throw new RuntimeException("invalid script arguments")
         //}
-    
+
         instanceId = 1 // TODO
         config = new ConfigSlurper().parse(new File(args[0]).toURL())
         installDir = System.properties["user.home"]+ "/.cloudify/${config.serviceName}"
@@ -37,16 +37,24 @@ public class Tools
 
         println "Config:"
         println config
-        
+
         new AntBuilder().mkdir(dir: installDir) // works like mkdir -p
 
         // deprecated - old version
         // thisHost = args[1]
-        
+
         // new version of CAMEL
         thisHost = env['CONTAINER_HOST_IP']
+        if (thisHost == null || thisHost == "") {
+          println "CONTAINER_HOST_IP is not set -> localhost will be used"
+          thisHost = "localhost"
+        }
         thisHostDocker = env['LOCAL_IP']
-        
+        if (thisHostDocker == null || thisHostDocker == "") {
+          thisHostDocker = "localhost"
+          println "LOCAL_IP is not set -> localhost will be used"
+        }
+
         // TODO: get my port from eg. env[EXPMANPORT_EXTERNAL_PORT]
 
         if (env.containsKey("INFSERPORTREQ")) {
@@ -54,19 +62,19 @@ public class Tools
             isHost = isAddress.split(':')[0]
             isPort = isAddress.split(':')[1]
         }
-        
+
         if (env.containsKey('STOMANPORTREQ')) {
             def stAddress = env["STOMANPORTREQ"].split(',')[0]
             storageHost = stAddress.split(':')[0]
             storagePort = stAddress.split(':')[1]
         }
-        
+
         if (env.containsKey('EXPMANPORTREQ')) {
             def emAddress = env["EXPMANPORTREQ"].split(',')[0]
             emHost = emAddress.split(':')[0]
             emPort = emAddress.split(':')[1]
         }
-        
+
         println "serviceDir: ${serviceDir}"
         println "this: ${thisHost}; thisDocker: ${thisHostDocker}"
         println "isHost: ${isHost}, isPort: ${isPort}"
@@ -74,28 +82,28 @@ public class Tools
         println "emHost: ${emHost}, emPort: ${emPort}"
 
     }
-    
+
     // TODO: ports set constant
-    
+
     def waitForService(address, port, name) {
         while (!isPortOccupied(address, port)) {
             println "Waiting for ${name}..."
             sleep(5000)
         }
     }
-    
+
     def waitForInformationService() {
         waitForService(isHost, isPort, "Information Service")
     }
-    
+
     def waitForStorageManager() {
         waitForService(storageHost, storagePort, "Storage Manager")
     }
-    
+
     def waitForExperimentManager() {
         waitForService(emHost, emPort, "Experiment Manager")
     }
-    
+
     // Address without https://, eg.: localhost:3001
     def watchServiceStatus(address, probe_delay_ms=10000) {
         try {
@@ -117,15 +125,15 @@ public class Tools
     def mongoStatusCommand() {
         command("bash check_mongod.sh", '../')
     }
-    
+
     def installCurl() {
         command("sudo apt-get -y install curl")
     }
-    
+
     void installGit() {
         command("sudo apt-get -y install git")
     }
-    
+
     def registerServiceInIS(name_plural, address) {
         execute('curl', installDir, false, [
             '--user', 'scalarm:scalarm', // TODO
@@ -133,7 +141,7 @@ public class Tools
             '--data', "address=${address}"
         ])
     }
-    
+
     def deregisterServiceInIS(name_plural, address) {
         execute('curl', installDir, false, [
             '--user', 'scalarm:scalarm', // TODO
@@ -141,14 +149,14 @@ public class Tools
             '--data', "address=${address}"
         ])
     }
-            
+
     def getIsHost() {
         isHost
     }
-    
+
     boolean isRubyValid() {
         def p = optionalCommand('ruby -v')
-        
+
         p['exit'] == 0 && p['out'] =~ /ruby 2\.1.*/
     }
 
@@ -185,14 +193,14 @@ public class Tools
             "sudo apt-get update",
             "sudo apt-get install -y nginx"
         ].join(" && ")
-        
+
         command(cmd)
     }
-    
+
     def killAllNginxes(name) {
         getPids("nginx.*master process nginx.*${name}.*").each { pid -> optionalCommand("sudo kill ${pid}") }
     }
-    
+
     def killAllSimulationManagers() {
         getSimulationManagerPids().collect { pid ->
             optionalCommand("sudo kill ${pid}")
@@ -202,7 +210,7 @@ public class Tools
     def getSimulationManagerPids() {
         getPids("scalarm_simulation_manager")
     }
-    
+
     def commandProduction(cmd) {
         commandEnvs(cmd, 'production')
     }
@@ -210,7 +218,7 @@ public class Tools
     def commandEnvsByConfig(cmd) {
         commandEnvs(cmd, config.railsEnv)
     }
-    
+
     def commandEnvs(cmd, railsEnv) {
         command(cmd, serviceDir, envsFor(railsEnv))
     }
@@ -222,7 +230,7 @@ public class Tools
     def optionalCommandEnvsByConfig(cmd) {
         optionalCommand(cmd, serviceDir, envsFor(config.railsEnv))
     }
-    
+
     def envsProduction() {
         envsFor('production')
     }
@@ -235,9 +243,9 @@ public class Tools
             'IS_PASS': 'scalarm'
         ]
     }
-    
+
     def re_proc = /([0-9]+) .*/
-        
+
     def getPids(query) {
         def ps = optionalCommand("ps -eo pid,args | tail -n +2 | grep \"[${query[0]}]${query[1..-1]}\"")
         def lines = ps['out'].split('\n')
@@ -247,27 +255,27 @@ public class Tools
             lines.collect() { (it =~ re_proc)[0][1].toInteger() }
         }
     }
-    
+
     def isPortOccupied(host, port) {
         def ps = optionalCommand("nc ${host} ${port} < /dev/null")
         ps["exit"] == 0
     }
- 
+
     def download(address, outputFile) {
         command("wget \"${address}\" -O \"${outputFile}\"")
     }
- 
+
     def execute(executable, dir, failonerror, args=[], envs=[]) {
         def cmd = "${executable} ${args.join(' ')}"
         println "executing: '${cmd}' in ${dir}"
-        
+
         def ant = new AntBuilder()
         try {
             ant.exec(
                 executable: executable,
                 dir: dir,
                 failonerror: failonerror,
-                
+
                 outputproperty: 'out',
                 errorproperty: 'err',
                 resultproperty: 'result'
@@ -283,7 +291,7 @@ public class Tools
         }
         return [
             'out': ant.project.properties.out,
-            'err': ant.project.properties.err, 
+            'err': ant.project.properties.err,
             'exit': Integer.parseInt(ant.project.properties.result)
         ]
     }
