@@ -69,7 +69,7 @@ def mongo_log_path = "./../../log/scalarm_db.log"
 tools.command("./mongod --bind_ip ${tools.thisHostDocker} --port 27017 --dbpath ${db_data_dir} --logpath ${mongo_log_path} --rest --httpinterface --fork --smallfiles --auth", "${tools.serviceDir}/mongodb/bin")
 
 // TODO: get mongo router public port
-def mongodbPublicPort = tools.env['STOMANDBPORT_EXTERNAL_PORT']
+def mongodbPublicPort = tools.env['PUBLIC_STOMANDBPORT']
 println "StorageManager MongoDB: my external port is ${mongodbPublicPort}"
 
 tools.registerServiceInIS("db_routers", "${tools.thisHost}:${mongodbPublicPort}")
@@ -90,7 +90,7 @@ tools.killAllNginxes("nginx-storage")
 tools.command("sudo nginx -c nginx.conf -p ${nginxConfigDir}")
 
 // get my public port
-def logBankPublicPort = tools.env['STOMANPORT_EXTERNAL_PORT']
+def logBankPublicPort = tools.env['PUBLIC_STOMANPORT']
 println "StorageManager LogBank: my external port is ${logBankPublicPort}"
 
 // first, deregister this Storage from IS (because registering the same address causes error)

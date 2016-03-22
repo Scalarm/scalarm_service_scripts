@@ -13,6 +13,9 @@ public class Tools
     def isPort
     def storageHost
     def storagePort
+    def mongoHost
+    def mongoPort
+
     def emHost
     def emPort
     def env
@@ -44,33 +47,54 @@ public class Tools
         // thisHost = args[1]
 
         // new version of CAMEL
-        thisHost = env['CONTAINER_HOST_IP']
+        thisHost = env['PUBLIC_IP']
         if (thisHost == null || thisHost == "") {
-          println "CONTAINER_HOST_IP is not set -> localhost will be used"
+          println "PUBLIC_IP is not set -> localhost will be used"
           thisHost = "localhost"
         }
-        thisHostDocker = env['LOCAL_IP']
+        thisHostDocker = env['CONTAINER_IP']
         if (thisHostDocker == null || thisHostDocker == "") {
           thisHostDocker = "localhost"
-          println "LOCAL_IP is not set -> localhost will be used"
+          println "CONTAINER_IP is not set -> localhost will be used"
         }
 
         // TODO: get my port from eg. env[EXPMANPORT_EXTERNAL_PORT]
 
-        if (env.containsKey("INFSERPORTREQ")) {
-            def isAddress = env["INFSERPORTREQ"].split(',')[0]
+        // GETTING information service address from different services
+        if (env.containsKey("PUBLIC_InfSerPortReq")) {
+            def isAddress = env["PUBLIC_InfSerPortReq"].split(',')[0]
             isHost = isAddress.split(':')[0]
             isPort = isAddress.split(':')[1]
         }
 
-        if (env.containsKey('STOMANPORTREQ')) {
-            def stAddress = env["STOMANPORTREQ"].split(',')[0]
+        if (env.containsKey("PUBLIC_InfSerToEMPortReq")) {
+            def isAddress = env["PUBLIC_InfSerToEMPortReq"].split(',')[0]
+            isHost = isAddress.split(':')[0]
+            isPort = isAddress.split(':')[1]    
+        }
+
+        if (env.containsKey("PUBLIC_InfSerToSiMPortReq")) {
+            def isAddress = env["PUBLIC_InfSerToSiMPortReq"].split(',')[0]
+            isHost = isAddress.split(':')[0]
+            isPort = isAddress.split(':')[1]    
+        }
+
+        // GETTING Storage manager - log bank address from different services
+        if (env.containsKey('PUBLIC_StoManDbToEMPortReq')) {
+            def dbAddress = env["PUBLIC_StoManDbToEMPortReq"].split(',')[0]
+            mongoHost = dbAddress.split(':')[0]
+            mongogePort = dbAddress.split(':')[1]
+        }
+
+        if (env.containsKey('PUBLIC_StoManToSiMPortReq')) {
+            def stAddress = env["PUBLIC_StoManToSiMPortReq"].split(',')[0]
             storageHost = stAddress.split(':')[0]
             storagePort = stAddress.split(':')[1]
         }
 
-        if (env.containsKey('EXPMANPORTREQ')) {
-            def emAddress = env["EXPMANPORTREQ"].split(',')[0]
+        // GETTING Experiment manager - mongodb address from different services
+        if (env.containsKey('PUBLIC_ExpManPortReq')) {
+            def emAddress = env["PUBLIC_ExpManPortReq"].split(',')[0]
             emHost = emAddress.split(':')[0]
             emPort = emAddress.split(':')[1]
         }
@@ -79,6 +103,7 @@ public class Tools
         println "this: ${thisHost}; thisDocker: ${thisHostDocker}"
         println "isHost: ${isHost}, isPort: ${isPort}"
         println "storageHost: ${storageHost}, storagePort: ${storagePort}"
+        println "mongoHost: ${mongoHost}, mongoPort: ${mongoPort}"
         println "emHost: ${emHost}, emPort: ${emPort}"
 
     }

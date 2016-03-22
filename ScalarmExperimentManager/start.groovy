@@ -37,7 +37,7 @@ tools.command("sudo nginx -c nginx.conf -p ${nginxDir}")
 // Deregister this EM from IS (because registering the same address causes error)
 
 // get my public port
-def emPublicPort = tools.env['EXPMANPORT_EXTERNAL_PORT']
+def emPublicPort = tools.env['PUBLIC_EXPMANPORT']
 println "ExperimentManager: my external port is ${emPublicPort}"
 
 tools.deregisterServiceInIS('experiment_managers', "${tools.thisHost}:${emPublicPort}")
