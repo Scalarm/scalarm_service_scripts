@@ -70,20 +70,20 @@ public class Tools
         if (env.containsKey("PUBLIC_InfSerToEMPortReq")) {
             def isAddress = env["PUBLIC_InfSerToEMPortReq"].split(',')[0]
             isHost = isAddress.split(':')[0]
-            isPort = isAddress.split(':')[1]    
+            isPort = isAddress.split(':')[1]
         }
 
         if (env.containsKey("PUBLIC_InfSerToSiMPortReq")) {
             def isAddress = env["PUBLIC_InfSerToSiMPortReq"].split(',')[0]
             isHost = isAddress.split(':')[0]
-            isPort = isAddress.split(':')[1]    
+            isPort = isAddress.split(':')[1]
         }
 
         // GETTING Storage manager - log bank address from different services
-        if (env.containsKey('PUBLIC_StoManDbToEMPortReq')) {
-            def dbAddress = env["PUBLIC_StoManDbToEMPortReq"].split(',')[0]
-            mongoHost = dbAddress.split(':')[0]
-            mongogePort = dbAddress.split(':')[1]
+        if (env.containsKey('PUBLIC_StoManToEMPortReq')) {
+            def dbAddress = env["PUBLIC_StoManToEMPortReq"].split(',')[0]
+            storageHost = dbAddress.split(':')[0]
+            storageHost = dbAddress.split(':')[1]
         }
 
         if (env.containsKey('PUBLIC_StoManToSiMPortReq')) {
@@ -92,7 +92,14 @@ public class Tools
             storagePort = stAddress.split(':')[1]
         }
 
-        // GETTING Experiment manager - mongodb address from different services
+        // GETTING Storage manager - mongodb address from different services
+        if (env.containsKey('PUBLIC_StoManDbToEMPortReq')) {
+            def dbAddress = env["PUBLIC_StoManDbToEMPortReq"].split(',')[0]
+            mongoHost = dbAddress.split(':')[0]
+            mongoPort = dbAddress.split(':')[1]
+        }
+
+        // GETTING Experiment manager - address from different services
         if (env.containsKey('PUBLIC_ExpManPortReq')) {
             def emAddress = env["PUBLIC_ExpManPortReq"].split(',')[0]
             emHost = emAddress.split(':')[0]
