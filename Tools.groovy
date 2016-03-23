@@ -302,7 +302,7 @@ public class Tools
         println "executing: '${cmd}' in ${dir}"
 
         def ant = new AntBuilder()
-        0.step 5, 1, {
+        for (int i = 0; i < 5; i++) {
           try {
               println it
               ant.exec(
