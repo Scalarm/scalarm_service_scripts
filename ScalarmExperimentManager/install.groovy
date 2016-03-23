@@ -1,5 +1,7 @@
 def tools = new Tools(args)
 
+tools.installCurl()
+
 def nginxDir = "${tools.installDir}/nginx-experiment"
 
 if (!tools.isRubyValid()) tools.installRvmRuby()
@@ -54,4 +56,3 @@ tools.download(tools.config.simulationBinariesDownloadPath, "${tools.installDir}
 ant.copy(todir: "${tools.installDir}/simulation") {
     fileset(dir: "simulation")
 }
-
