@@ -83,7 +83,7 @@ public class Tools
         if (env.containsKey('PUBLIC_StoManToEMPortReq')) {
             def dbAddress = env["PUBLIC_StoManToEMPortReq"].split(',')[0]
             storageHost = dbAddress.split(':')[0]
-            storageHost = dbAddress.split(':')[1]
+            storagePort = dbAddress.split(':')[1]
         }
 
         if (env.containsKey('PUBLIC_StoManToSiMPortReq')) {
