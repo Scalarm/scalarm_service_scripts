@@ -304,7 +304,6 @@ public class Tools
         def ant = new AntBuilder()
         for (int i = 0; i < 5; i++) {
           try {
-              println it
               ant.exec(
                   executable: executable,
                   dir: dir,
@@ -324,6 +323,7 @@ public class Tools
               println "envs: ${envs}"
               println "- stdout: ${ant.project.properties.out}"
               println "- stderr: ${ant.project.properties.err}"
+              println i
               sleep(10000)
           }
         }
