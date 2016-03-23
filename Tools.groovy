@@ -302,24 +302,29 @@ public class Tools
         println "executing: '${cmd}' in ${dir}"
 
         def ant = new AntBuilder()
-        try {
-            ant.exec(
-                executable: executable,
-                dir: dir,
-                failonerror: failonerror,
+        0.step 5, 1, {
+          try {
+              println it
+              ant.exec(
+                  executable: executable,
+                  dir: dir,
+                  failonerror: failonerror,
 
-                outputproperty: 'out',
-                errorproperty: 'err',
-                resultproperty: 'result'
-            ) {
-                args.each() { arg(value: it) }
-                envs.each() { k, v -> env(key: k, value: v) }
-            }
-        } finally {
-            println "finished: '${cmd}' with exit code ${ant.project.properties.result}"
-            println "envs: ${envs}"
-            println "- stdout: ${ant.project.properties.out}"
-            println "- stderr: ${ant.project.properties.err}"
+                  outputproperty: 'out',
+                  errorproperty: 'err',
+                  resultproperty: 'result'
+              ) {
+                  args.each() { arg(value: it) }
+                  envs.each() { k, v -> env(key: k, value: v) }
+              }
+
+              break
+          } finally {
+              println "finished: '${cmd}' with exit code ${ant.project.properties.result}"
+              println "envs: ${envs}"
+              println "- stdout: ${ant.project.properties.out}"
+              println "- stderr: ${ant.project.properties.err}"
+          }
         }
         return [
             'out': ant.project.properties.out,
