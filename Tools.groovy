@@ -323,8 +323,12 @@ public class Tools
               println "envs: ${envs}"
               println "- stdout: ${ant.project.properties.out}"
               println "- stderr: ${ant.project.properties.err}"
-              println i
-              sleep(10000)
+              if(failonerror) {
+                println i
+                sleep(10000)
+              } else {
+                break
+              }
           }
         }
         return [
