@@ -194,9 +194,17 @@ public class Tools
 
     def installRvmRuby() {
         println 'installing RVM...'
-        optionalCommand('gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3')
-        def installCmd = "\\curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1"
-        command(installCmd)['out']
+
+        for (int i = 0; i < 5; i++) {
+            optionalCommand('gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3')
+
+            def installCmd = "\\curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1"
+            def installOutput = command(installCmd)
+
+            if (installOutput['exit'] == 0) {
+                return installOutput['out']
+            }
+        }        
     }
 
     def copyAndApplyPatch(patch_file_name) {
