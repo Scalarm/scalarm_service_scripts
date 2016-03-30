@@ -202,6 +202,7 @@ public class Tools
             def installOutput = command(installCmd)
 
             if (installOutput['exit'] == 0) {
+                optionalCommand('source /home/ubuntu/.rvm/scripts/rvm')
                 optionalCommand('gem install bundler')
                 return installOutput['out']
             }
