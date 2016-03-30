@@ -202,9 +202,10 @@ public class Tools
             def installOutput = command(installCmd)
 
             if (installOutput['exit'] == 0) {
+                optionalCommand('gem install bundler')
                 return installOutput['out']
             }
-        }        
+        }
     }
 
     def copyAndApplyPatch(patch_file_name) {
