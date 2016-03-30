@@ -6,7 +6,7 @@ def nginxConfigDir = "${tools.installDir}/nginx-storage"
 
 // generate config file (we are sure that we know thisHost)
 // mongo_host - assume that mongo is running within this instance and listens on thisHost private port
-// 
+//
 def scalarmYML = """\
 # log_bank - assume mongo is on current host listening on Docker interface
 mongo_host: ${tools.thisHostDocker}
@@ -69,13 +69,13 @@ def mongo_log_path = "./../../log/scalarm_db.log"
 tools.command("./mongod --bind_ip 0.0.0.0 --port 27017 --dbpath ${db_data_dir} --logpath ${mongo_log_path} --rest --httpinterface --fork --smallfiles --auth", "${tools.serviceDir}/mongodb/bin")
 
 // TODO: get mongo router public port
-def mongodbPublicPort = tools.env['PUBLIC_STOMANDBPORT']
+def mongodbPublicPort = tools.env['PUBLIC_MONGODBPORT']
 println "StorageManager MongoDB: my external port is ${mongodbPublicPort}"
 
 tools.registerServiceInIS("db_routers", "${tools.thisHost}:${mongodbPublicPort}")
 
 // start single mongo instance (mongod) and log_bank
-// will listen on db_router_port and 
+// will listen on db_router_port and
 tools.command('rake log_bank:start', tools.serviceDir, [
     'RAILS_ENV': 'production',
     'IS_URL': "${tools.getIsHost()}:${tools.isPort}",
@@ -110,4 +110,3 @@ try {
     tools.command("cat log/${log_name}.log", tools.serviceDir)
     throw e
 }
-
