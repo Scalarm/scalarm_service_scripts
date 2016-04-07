@@ -9,7 +9,7 @@ def nginxConfigDir = "${tools.installDir}/nginx-storage"
 //
 def scalarmYML = """\
 # log_bank - assume mongo is on current host listening on Docker interface
-mongo_host: ${tools.thisHostDocker}
+mongo_host: 'localhost'
 mongo_port: 27017
 db_name: 'scalarm_db'
 binaries_collection_name: 'simulation_files'
