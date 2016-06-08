@@ -128,12 +128,40 @@ public class Tools
         waitForService(isHost, isPort, "Information Service")
     }
 
-    def waitForStorageManager() {
-        waitForService(storageHost, storagePort, "Storage Manager")
+    def waitForStorageManager() {        
+        def jsonSlurper = new groovy.json.JsonSlurper()
+
+        while(true) {
+            def response = "curl -k https://${isHost}/storage_managers".execute().text
+            def urlList = jsonSlurper.parseText(response)
+
+            if(urlList.size() > 0) {
+                storageHost = urlList.split(':')[0]
+                storagePort = urlList.split(':')[1]    
+                break
+            }
+
+            println "Waiting for storage manager..."
+            sleep(5000)
+        }
     }
 
     def waitForExperimentManager() {
-        waitForService(emHost, emPort, "Experiment Manager")
+        def jsonSlurper = new groovy.json.JsonSlurper()
+
+        while(true) {
+            def response = "curl -k https://${isHost}/experiment_managers".execute().text
+            def urlList = jsonSlurper.parseText(response)
+
+            if(urlList.size() > 0) {
+                storageHost = urlList.split(':')[0]
+                storagePort = urlList.split(':')[1]    
+                break
+            }
+
+            println "Waiting for storage manager..."
+            sleep(5000)
+        }
     }
 
     // Address without https://, eg.: localhost:3001
