@@ -80,31 +80,31 @@ public class Tools
         }
 
         // GETTING Storage manager - log bank address from different services
-        if (env.containsKey('PUBLIC_StoManPortToEmReq')) {
-            def dbAddress = env["PUBLIC_StoManPortToEmReq"].split(',')[0]
-            storageHost = dbAddress.split(':')[0]
-            storagePort = dbAddress.split(':')[1]
-        }
+        // if (env.containsKey('PUBLIC_StoManPortToEmReq')) {
+        //     def dbAddress = env["PUBLIC_StoManPortToEmReq"].split(',')[0]
+        //     storageHost = dbAddress.split(':')[0]
+        //     storagePort = dbAddress.split(':')[1]
+        // }
 
-        if (env.containsKey('PUBLIC_StoManPortToSimReq')) {
-            def stAddress = env["PUBLIC_StoManPortToSimReq"].split(',')[0]
-            storageHost = stAddress.split(':')[0]
-            storagePort = stAddress.split(':')[1]
-        }
+        // if (env.containsKey('PUBLIC_StoManPortToSimReq')) {
+        //     def stAddress = env["PUBLIC_StoManPortToSimReq"].split(',')[0]
+        //     storageHost = stAddress.split(':')[0]
+        //     storagePort = stAddress.split(':')[1]
+        // }
 
         // GETTING Storage manager - mongodb address from different services
-        if (env.containsKey('PUBLIC_MongoDbPortToEmReq')) {
-            def dbAddress = env["PUBLIC_MongoDbPortToEmReq"].split(',')[0]
-            mongoHost = dbAddress.split(':')[0]
-            mongoPort = dbAddress.split(':')[1]
+        // if (env.containsKey('PUBLIC_MongoDbPortToEmReq')) {
+        //     def dbAddress = env["PUBLIC_MongoDbPortToEmReq"].split(',')[0]
+        //     mongoHost = dbAddress.split(':')[0]
+        //     mongoPort = dbAddress.split(':')[1]
         }
 
         // GETTING Experiment manager - address from different services
-        if (env.containsKey('PUBLIC_ExpManPortToSimReq')) {
-            def emAddress = env["PUBLIC_ExpManPortToSimReq"].split(',')[0]
-            emHost = emAddress.split(':')[0]
-            emPort = emAddress.split(':')[1]
-        }
+        // if (env.containsKey('PUBLIC_ExpManPortToSimReq')) {
+        //     def emAddress = env["PUBLIC_ExpManPortToSimReq"].split(',')[0]
+        //     emHost = emAddress.split(':')[0]
+        //     emPort = emAddress.split(':')[1]
+        // }
 
         println "serviceDir: ${serviceDir}"
         println "this: ${thisHost}; thisDocker: ${thisHostDocker}"
