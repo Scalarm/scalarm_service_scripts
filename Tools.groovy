@@ -97,7 +97,7 @@ public class Tools
         //     def dbAddress = env["PUBLIC_MongoDbPortToEmReq"].split(',')[0]
         //     mongoHost = dbAddress.split(':')[0]
         //     mongoPort = dbAddress.split(':')[1]
-        }
+        // }
 
         // GETTING Experiment manager - address from different services
         // if (env.containsKey('PUBLIC_ExpManPortToSimReq')) {
@@ -109,10 +109,9 @@ public class Tools
         println "serviceDir: ${serviceDir}"
         println "this: ${thisHost}; thisDocker: ${thisHostDocker}"
         println "isHost: ${isHost}, isPort: ${isPort}"
-        println "storageHost: ${storageHost}, storagePort: ${storagePort}"
-        println "mongoHost: ${mongoHost}, mongoPort: ${mongoPort}"
-        println "emHost: ${emHost}, emPort: ${emPort}"
-
+        // println "storageHost: ${storageHost}, storagePort: ${storagePort}"
+        // println "mongoHost: ${mongoHost}, mongoPort: ${mongoPort}"
+        // println "emHost: ${emHost}, emPort: ${emPort}"
     }
 
     // TODO: ports set constant
