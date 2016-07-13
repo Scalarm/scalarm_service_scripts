@@ -127,17 +127,21 @@ public class Tools
         waitForService(isHost, isPort, "Information Service")
     }
 
-    def waitForStorageManager() {        
+    def waitForStorageManager() {
         def jsonSlurper = new groovy.json.JsonSlurper()
 
         while(true) {
             def response = "curl -k https://${isHost}/storage_managers".execute().text
-            def urlList = jsonSlurper.parseText(response)
+            response = response.replaceAll("\\s","")
 
-            if(urlList.size() > 0) {
-                storageHost = urlList.split(':')[0]
-                storagePort = urlList.split(':')[1]    
-                break
+            if(response.size() > 0) {
+              def urlList = jsonSlurper.parseText(response)
+
+              if(urlList.size() > 0) {
+                  storageHost = urlList.split(':')[0]
+                  storagePort = urlList.split(':')[1]
+                  break
+              }
             }
 
             println "Waiting for storage manager..."
@@ -150,12 +154,16 @@ public class Tools
 
         while(true) {
             def response = "curl -k https://${isHost}/experiment_managers".execute().text
-            def urlList = jsonSlurper.parseText(response)
+            response = response.replaceAll("\\s","")
 
-            if(urlList.size() > 0) {
-                storageHost = urlList.split(':')[0]
-                storagePort = urlList.split(':')[1]    
-                break
+            if(response.size() > 0) {
+              def urlList = jsonSlurper.parseText(response)
+
+              if(urlList.size() > 0) {
+                  storageHost = urlList.split(':')[0]
+                  storagePort = urlList.split(':')[1]
+                  break
+              }
             }
 
             println "Waiting for storage manager..."
