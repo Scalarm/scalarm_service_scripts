@@ -128,47 +128,71 @@ public class Tools
     }
 
     def waitForStorageManager() {
-        def jsonSlurper = new groovy.json.JsonSlurper()
+      while(true) {
+        try {
+          def jsonSlurper = new groovy.json.JsonSlurper()
+          def response = "curl -k https://${isHost}/storage_managers".execute().text
+          response = response.replaceAll("\\s","")
 
-        while(true) {
-            def response = "curl -k https://${isHost}/storage_managers".execute().text
-            response = response.replaceAll("\\s","")
+          if(response.size() > 0) {
+            def urlList = jsonSlurper.parseText(response)
 
-            if(response.size() > 0) {
-              def urlList = jsonSlurper.parseText(response)
-
-              if(urlList.size() > 0) {
-                  storageHost = urlList.split(':')[0]
-                  storagePort = urlList.split(':')[1]
-                  break
-              }
+            if(urlList.size() > 0) {
+                storageHost = urlList[0].split(':')[0]
+                storagePort = urlList[0].split(':')[1]
+                break
+            } else {
+              println "No storage managers registered"
             }
+          } else {
+            println "Empty string returned from the information service"
+          }
 
-            println "Waiting for storage manager..."
-            sleep(5000)
+          println "Waiting for storage manager..."
+          sleep(5000)
+
+        } catch(any) {
+          println "An exception cought:"
+          println any
+
+          println "Waiting for storage manager..."
+          sleep(5000)
         }
+      }
     }
 
     def waitForExperimentManager() {
-        def jsonSlurper = new groovy.json.JsonSlurper()
+      while(true) {
+        try {
+          def jsonSlurper = new groovy.json.JsonSlurper()
+          def response = "curl -k https://${isHost}/experiment_managers".execute().text
+          response = response.replaceAll("\\s","")
 
-        while(true) {
-            def response = "curl -k https://${isHost}/experiment_managers".execute().text
-            response = response.replaceAll("\\s","")
+          if(response.size() > 0) {
+            def urlList = jsonSlurper.parseText(response)
 
-            if(response.size() > 0) {
-              def urlList = jsonSlurper.parseText(response)
-
-              if(urlList.size() > 0) {
-                  storageHost = urlList.split(':')[0]
-                  storagePort = urlList.split(':')[1]
-                  break
-              }
+            if(urlList.size() > 0) {
+                emHost = urlList[0].split(':')[0]
+                emPort = urlList[0].split(':')[1]
+                break
+            } else {
+              println "No experiment managers registered"
             }
+          } else {
+            println "Empty string returned from the information service"
+          }
 
-            println "Waiting for storage manager..."
-            sleep(5000)
+          println "Waiting for experiment manager..."
+          sleep(5000)
+
+        } catch(any) {
+          println "An exception cought:"
+          println any
+
+          println "Waiting for experiment manager..."
+          sleep(5000)
         }
+      }
     }
 
     // Address without https://, eg.: localhost:3001
