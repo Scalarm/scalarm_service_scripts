@@ -131,7 +131,7 @@ public class Tools
         def jsonSlurper = new groovy.json.JsonSlurper()
 
         while(true) {
-            def response = "curl -k https://${isHost}/storage_managers".execute().text
+            def response = "curl -k https://${isHost}:${isPort}/storage_managers".execute().text
             response = response.replaceAll("\\s","")
 
             if(response.size() > 0) {
@@ -153,7 +153,7 @@ public class Tools
         def jsonSlurper = new groovy.json.JsonSlurper()
 
         while(true) {
-            def response = "curl -k https://${isHost}/experiment_managers".execute().text
+            def response = "curl -k https://${isHost}:${isPort}/experiment_managers".execute().text
             response = response.replaceAll("\\s","")
 
             if(response.size() > 0) {
