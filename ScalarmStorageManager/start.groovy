@@ -69,7 +69,8 @@ def mongo_log_path = "./../../log/scalarm_db.log"
 tools.command("./mongod --bind_ip 0.0.0.0 --port 27017 --dbpath ${db_data_dir} --logpath ${mongo_log_path} --rest --httpinterface --fork --smallfiles --auth", "${tools.serviceDir}/mongodb/bin")
 
 // TODO: get mongo router public port
-def mongodbPublicPort = tools.env['PUBLIC_MONGODBPORT']
+// def mongodbPublicPort = tools.env['PUBLIC_MONGODBPORT']
+def mongodbPublicPort = '27017'
 println "StorageManager MongoDB: my external port is ${mongodbPublicPort}"
 
 tools.registerServiceInIS("db_routers", "${tools.thisHost}:${mongodbPublicPort}")
