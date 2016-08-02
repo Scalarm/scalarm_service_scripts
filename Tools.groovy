@@ -34,14 +34,14 @@ public class Tools
 
         instanceId = 1 // TODO
         config = new ConfigSlurper().parse(new File(args[0]).toURL())
-        installDir = System.properties["user.home"]+ "/.cloudify/${config.serviceName}"
+        installDir = System.properties["user.home"]+ "/.cloudify/"
         serviceDir = "${installDir}/${config.serviceName}"
         serviceConfigDir = "${serviceDir}/config"
 
         println "Config:"
         println config
 
-        new AntBuilder().mkdir(dir: installDir) // works like mkdir -p
+        new AntBuilder().mkdir(dir: serviceConfigDir) // works like mkdir -p
 
         // deprecated - old version
         // thisHost = args[1]
