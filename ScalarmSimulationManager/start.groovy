@@ -16,4 +16,7 @@ new File("${tools.installDir}/config.json").withWriter { out ->
 }
 
 // execution moved to .sh file
-// tools.command("./scalarm_simulation_manager", tools.installDir)
+tools.command("bash --login -c \"./scalarm_simulation_manager\"", tools.installDir)
+// pushd $HOME/.cloudify/scalarm_simulation_manager
+    // bash --login -c "./scalarm_simulation_manager"
+// popd

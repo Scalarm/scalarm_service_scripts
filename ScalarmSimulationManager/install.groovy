@@ -11,8 +11,6 @@ tools.command("dpkg -i /tmp/povray37_include.deb")
 // to execute sample simulation, which has executor in ruby
 if (!tools.isRubyValid()) tools.installRvmRuby()
 
-ant.mkdir(dir: tools.installDir)
-
 tools.download(tools.config.simDownloadURL, "${tools.installDir}/scalarm_simulation_manager.xz")
 tools.command("unxz scalarm_simulation_manager.xz && chmod +x scalarm_simulation_manager", tools.installDir)
 
