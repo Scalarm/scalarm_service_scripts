@@ -11,7 +11,7 @@ def configStr = """\
 }
 """
 
-new File("${tools.installDir}/config.json").withWriter { out ->
+new File("${tools.serviceDir}/config.json").withWriter { out ->
     out.writeLine(configStr)
 }
 
