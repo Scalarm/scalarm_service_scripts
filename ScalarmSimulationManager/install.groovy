@@ -1,6 +1,6 @@
 def tools = new Tools(this.args)
 
-tools.command("sudo apt-get -y install ruby zip bc mencoder wget libboost-dev libboost-thread-dev libtiff5-dev libopenexr-dev curl wget")
+tools.command("sudo apt-get -y --force-yes install ruby zip bc mencoder wget libboost-dev libboost-thread-dev libtiff5-dev libopenexr-dev curl wget")
 
 tools.command("wget http://ftp.ubuntu.com/ubuntu/ubuntu/pool/universe/p/povray/povray_3.7.0.0-4~ubuntu14.04.1_amd64.deb -O /tmp/povray37.deb")
 tools.command("wget http://ftp.ubuntu.com/ubuntu/ubuntu/pool/universe/p/povray/povray-includes_3.7.0.0-4~ubuntu14.04.1_all.deb -O /tmp/povray37_include.deb")
