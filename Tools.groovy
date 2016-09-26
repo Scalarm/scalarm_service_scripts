@@ -218,11 +218,11 @@ public class Tools
     }
 
     def installCurl() {
-        command("sudo apt-get -y install curl")
+        command("sudo apt-get -y --force-yes install curl")
     }
 
     void installGit() {
-        command("sudo apt-get -y install git")
+        command("sudo apt-get -y --force-yes install git")
     }
 
     def registerServiceInIS(name_plural, address) {
@@ -290,10 +290,10 @@ public class Tools
 
     void installNginx() {
         def cmd = [
-            "sudo apt-get -y install python-software-properties software-properties-common",
+            "sudo apt-get -y --force-yes install python-software-properties software-properties-common",
             "sudo add-apt-repository -y ppa:nginx/stable",
-            "sudo apt-get update",
-            "sudo apt-get install -y nginx"
+            "sudo apt-get -y --force-yes update",
+            "sudo apt-get -y --force-yes install nginx"
         ].join(" && ")
 
         command(cmd)
