@@ -276,7 +276,7 @@ public class Tools
     }
 
     def command(command, dir=installDir, envs=[], failonerror=true) {
-        execute('bash', dir, failonerror, ['--login', '-c', '"' + command + '"'], envs)
+        execute('bash', dir, failonerror, ['--login', '-c', command], envs)
     }
 
     def optionalCommand(cmd, dir=installDir, envs=[]) {
